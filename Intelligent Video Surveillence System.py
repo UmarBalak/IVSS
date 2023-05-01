@@ -19,7 +19,8 @@ model.setInputMean((127.5, 127.5, 127.5))
 model.setInputSwapRB(True)
 
 # Open video file
-cap = cv2.VideoCapture("Thailand traffic footage for object recognition #4.mp4")
+# add path of the video footage below
+cap = cv2.VideoCapture("")
 # cap = cv2.VideoCapture(0)
 
 # Initialize variables for abnormal event detection
@@ -34,8 +35,6 @@ tracking_object = {}
 track_id = 0
 
 
-# bbox = cv2.selectROI('Tracking', frame, False)
-# tracker.init(frame, bbox)
 # Loop over video frames
 while True:
     ret, frame = cap.read()
@@ -92,13 +91,6 @@ while True:
         # Calculate centroids of detected objects
         centroids = [(box[0] + box[2] / 2, box[1] + box[3] / 2) for box in bbox]
 
-
-        # if previous_boxes is not None:
-        #     if len(bbox) > len(previous_boxes):
-        #         car_count+=(len(bbox) - len(previous_boxes))
-        #
-        # previous_boxes = bbox
-
         # Detect abnormal events based on changes in object movement
         if previous_centroids is not None:
             for i, centroid in enumerate(centroids):
@@ -106,8 +98,7 @@ while True:
                     distance = ((centroid[0] - previous_centroids[i][0]) ** 2 + (centroid[1] - previous_centroids[i][1]) ** 2) ** 0.5
                     # if distance > threshold_distance:
                     #     cv2.putText(frame, "Abnormal event detected", (8, 30), cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255))
-                        # Do something to handle the abnormal event here
-
+                  
         # Update previous boxes and centroids
         previous_boxes = bbox
         previous_centroids = centroids
